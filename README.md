@@ -6,24 +6,24 @@ Data integration:
 2. Networks: three protein-protein interaction networks (STRING, HPRD, iRefIndex) and two co-expression networks (Pearson correlation and top 5 ranked neighbors)
 3. Combined networks: HPRD  + coexp + GGM (based on glasso R packages)
 
-Dependences:
+#Dependences:
 R packages: CRF, WGCNA
 Matlab toolbox: UGM
 
-Related methods:
+#Related methods:
 TADA
 DAWN
 MAGI
 HotNet2
 
 
-File list:
+#File list:
 coexp.R: build co-expression networks
 
 
 
 
-Simulations:
+#Simulations:
 
 
 
