@@ -29,7 +29,11 @@ comNet <- function(){
     net$node <- genes
     net$matrix <- matrix(0,net$size,net$size,dimnames=list(genes,genes))
     net$matrix[uniRef,uniRef] <- netiRef$matrix[uniRef,uniRef]
+    net$matrix[uniRef,ig] <- netiRef$matrix[uniRef,ig]
+    net$matrix[ig,uniRef] <- netiRef$matrix[ig,uniRef]
     net$matrix[uniCo,uniCo] <- netCo$matrix[uniCo,uniCo]
+    net$matrix[uniCo,ig] <- netCo$matrix[uniCo,ig]
+    net$matrix[ig,uniCo] <- netCo$matrix[ig,uniCo]
     net$matrix[ig,ig] <- tmp
     
     rm(tmp)
@@ -37,6 +41,12 @@ comNet <- function(){
     net$we <- matrix(0,net$size,net$size,dimnames=list(genes,genes))
     net$we[uniRef,uniRef] <- netiRef$we[uniRef,uniRef]
     net$we[uniCo,uniCo] <- netCo$we[uniCo,uniCo]
+    net$we[uniRef,uniRef] <- netiRef$we[uniRef,uniRef]
+    net$we[uniRef,ig] <- netiRef$we[uniRef,ig]
+    net$we[ig,uniRef] <- netiRef$we[ig,uniRef]
+    net$we[uniCo,uniCo] <- netCo$we[uniCo,uniCo]
+    net$we[uniCo,ig] <- netCo$we[uniCo,ig]
+    net$we[ig,uniCo] <- netCo$we[ig,uniCo]
     net$we[ig,ig] <- pmax(netiRef$we[ig,ig],netCo$we[ig,ig])## this the method to combine network betweenness
     ## maybe recalculte the network betweenness for combined networks
     
