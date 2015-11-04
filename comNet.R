@@ -64,10 +64,80 @@ comNet <- function(){
     
 }
 
+comNet_glasso <- function(){
+    source("misc.R")
+    source("comNet.R")
+    
+    ## combined the two best performance networks: iRefIndex and co-expression networks
+    filename <- "data/hotnet/iRefIndexm.txt";
+    netiRef <- net_matrix(filename)
+    netiRef$matrix[netiRef$matrix > 0] <- 1
+    
+    filename <- "data/network_inference/brainspan_net_top5.txt"; ## brain coexp 5
+    netCo <- net_matrix(filename)
+    netCo$matrix[netCo$matrix > 0] <- 1
+  
+    filename <- "data/network_inference/glassoBrainNet_ab.txt"; ##
+    netLa <- net_matrix(filename)
+    netLa$matrix <- netLa$matrix + t(netLa$matrix)
+    netLa$matrix[netLa$matrix > 0] <- 1
+   
+    
+    genes <- union(netiRef$node,union(netLa$node,netCo$node))
+    net <- list()
+    net$size <- length(genes)
+    net$node <- genes
+    net$matrix <- matrix(0,net$size,net$size,dimnames=list(genes,genes))
+    net$matrix[netiRef$node,netiRef$node] <- net$matrix[netiRef$node,netiRef$node] + netiRef$matrix[netiRef$node,netiRef$node]
+    net$matrix[netCo$node,netCo$node] <- net$matrix[netCo$node,netCo$node] + netCo$matrix[netCo$node,netCo$node]
+    net$matrix[netLa$node,netLa$node] <- net$matrix[netLa$node,netLa$node] + netLa$matrix[netLa$node,netLa$node]
+    net$matrix[net$matrix > 0] <- 1
+    
+    ## write the net file
+    net$matrix[upper.tri(net$matrix,diag=TRUE)] <- 0
+    edges <- which(net$matrix>0,arr.ind=TRUE)
+    net.text <- cbind(genes[edges[,1]],genes[edges[,2]],1)
+    qwt(net.text,file="data/network_inference/ComNet3.txt")
+    
+}
+
+comNet2 <- function(){
+    source("misc.R")
+    source("comNet.R")
+    
+    ## combined the two best performance networks: iRefIndex and co-expression networks
+    filename <- "data/hotnet/iRefIndexm.txt";
+    netiRef <- net_matrix(filename)
+    diag(netiRef$matrix) <- 0
+    netiRef$matrix[netiRef$matrix > 0] <- 1
+       
+    filename <- "data/network_inference/glassoBrainNet_ab.txt"; ##
+    netLa <- net_matrix(filename)
+    diag(netLa$matrix) <- 0
+    netLa$matrix <- netLa$matrix + t(netLa$matrix)  
+    netLa$matrix[netLa$matrix > 0] <- 1
+  
+    genes <- union(netiRef$node,netLa$node)
+    net <- list()
+    net$size <- length(genes)
+    net$node <- genes
+    net$matrix <- matrix(0,net$size,net$size,dimnames=list(genes,genes))
+    net$matrix[netiRef$node,netiRef$node] <- net$matrix[netiRef$node,netiRef$node] + netiRef$matrix[netiRef$node,netiRef$node]
+    net$matrix[netLa$node,netLa$node] <- net$matrix[netLa$node,netLa$node] + netLa$matrix[netLa$node,netLa$node]
+    net$matrix[net$matrix > 0] <- 1
+    
+    ## write the net file
+    net$matrix[upper.tri(net$matrix,diag=TRUE)] <- 0
+    edges <- which(net$matrix>0,arr.ind=TRUE)
+    net.text <- cbind(genes[edges[,1]],genes[edges[,2]],1)
+    qwt(net.text,file="data/network_inference/ComNet2.txt")
+    
+}
+
 net_matrix <- function(filename){
     net.text <- as.matrix(read.table(filename,sep="\t",header=FALSE))
     net.text <- rbind(net.text,net.text[,c(2,1,3)])
-    net.text[,3] <- as.numeric(net.text[,3])/max(as.numeric(net.text[,3]))
+    net.text[,3] <- as.numeric(net.text[,3])
     net<- read_net(net.text)
     net
 }
