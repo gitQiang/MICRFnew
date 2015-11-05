@@ -101,7 +101,7 @@ comNet_glasso <- function(){
     
 }
 
-comNet2 <- function(){
+comNet2iRef <- function(){
     source("misc.R")
     source("comNet.R")
     
@@ -130,7 +130,40 @@ comNet2 <- function(){
     net$matrix[upper.tri(net$matrix,diag=TRUE)] <- 0
     edges <- which(net$matrix>0,arr.ind=TRUE)
     net.text <- cbind(genes[edges[,1]],genes[edges[,2]],1)
-    qwt(net.text,file="data/network_inference/ComNet2.txt")
+    qwt(net.text,file="data/network_inference/ComNet2iRef.txt")
+    
+}
+
+comNet2Co <- function(){
+    source("misc.R")
+    source("comNet.R")
+    
+    ## combined the two best performance networks: iRefIndex and co-expression networks
+    filename <- "data/network_inference/brainspan_net_top5.txt"; ## brain coexp 5
+    netCo <- net_matrix(filename)
+    diag(netCo$matrix) <- 0
+    netCo$matrix[netCo$matrix > 0] <- 1
+    
+    filename <- "data/network_inference/glassoBrainNet_ab.txt"; ##
+    netLa <- net_matrix(filename)
+    diag(netLa$matrix) <- 0
+    netLa$matrix <- netLa$matrix + t(netLa$matrix)  
+    netLa$matrix[netLa$matrix > 0] <- 1
+    
+    genes <- union(netCo$node,netLa$node)
+    net <- list()
+    net$size <- length(genes)
+    net$node <- genes
+    net$matrix <- matrix(0,net$size,net$size,dimnames=list(genes,genes))
+    net$matrix[netCo$node,netCo$node] <- net$matrix[netCo$node,netCo$node] + netCo$matrix[netCo$node,netCo$node]
+    net$matrix[netLa$node,netLa$node] <- net$matrix[netLa$node,netLa$node] + netLa$matrix[netLa$node,netLa$node]
+    net$matrix[net$matrix > 0] <- 1
+    
+    ## write the net file
+    net$matrix[upper.tri(net$matrix,diag=TRUE)] <- 0
+    edges <- which(net$matrix>0,arr.ind=TRUE)
+    net.text <- cbind(genes[edges[,1]],genes[edges[,2]],1)
+    qwt(net.text,file="data/network_inference/ComNet2Co.txt")
     
 }
 
@@ -157,3 +190,17 @@ net_between <- function(filename,net){
     net
 }
 
+PrePPI_net <- function(){
+    LRcut <- 600
+    idmaps <- read.delim("data/UniprotID_HGNCsy.txt")
+    initnet <- read.table("data/PrePPI_HC.txt",header=TRUE,sep="\t")
+    
+    subs <- initnet[,1] %in% idmaps[,2] & initnet[,2] %in% idmaps[,2]
+    initnet <- initnet[subs,]
+    initnet[,1] <- idmaps[match(initnet[,1],idmaps[,2]),1]
+    initnet[,2] <- idmaps[match(initnet[,2],idmaps[,2]),1]
+    initnet[,3] <- initnet[,5]/(initnet[,5] + LRcut)
+    initnet <- initnet[,1:3]
+    source("~/.Rprofile")
+    qwt(initnet,file="data/PrePPI.txt")
+}
