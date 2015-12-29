@@ -10,8 +10,9 @@ Data integration:
 3. Combined networks: HPRD  + coexp + GGM (based on glasso R packages)
 
 #Dependences:
-R packages: CRF, WGCNA
-Matlab toolbox: UGM
+
+R packages: WGCNA
+Matlab toolbox: UGM: https://www.cs.ubc.ca/~schmidtm/Software/UGM.html
 
 #Related methods:
 TADA
@@ -22,6 +23,7 @@ HotNet2
 
 #File list:
 DDD_denovo_mutations.R: collected DDD de novo mutation lists
+
 coexp.R: build co-expression networks
 
 
