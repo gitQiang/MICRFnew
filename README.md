@@ -1,5 +1,8 @@
 # MICRFnew
-The published version for MICRF model with R and matlab code.
+This repository contains MICRF (Mutation Integration with Conditional Random Field), an integrative network method to discover more risk genes, described in .
+
+It is implemented based on R and matlab.
+
 
 Data integration:
 1. de novo mutations for DDD
@@ -18,6 +21,7 @@ HotNet2
 
 
 #File list:
+DDD_denovo_mutations.R: collected DDD de novo mutation lists
 coexp.R: build co-expression networks
 
 
