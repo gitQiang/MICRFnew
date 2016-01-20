@@ -26,17 +26,50 @@ DAWN: a network method based on hidden Markov random field model to label risk g
 MAGI: based on a combinatorial optimization algorithm which simultaneously integrated PPIs and gene expression data to discover modules enriched for de novo mutations.
 
 #Data
-De novo mutation lists:
+De novo mutation lists: data/Inputs/TADAdenovo_meta_dmis.csv with mutation type specific mutation rates and TADA de novo Bayes factors and FDRs.
+Network files: data/network
+Network betweenness files: data/Network_betweenness/
 
-#File list:
+#R functions:
 DDD_denovo_mutations.R: collected DDD de novo mutation lists
 
 coexp.R: build co-expression networks: CORR and CoEXP. They are built based on BrainSpan Microarray expression data.
 
 #Useage:
+%% download UGM and unzip it in current work directory
+%% demo MICRF also shows in demoMICRF.m
+
+% add MICRF function into current work space
+addpath(genpath(pwd))
+
+% MICRF inputs and outputs information
+help MICRF
+
+% MICRF with one node score file
+nodefile='data/Inputs/hotnet_inputmeta.txt';
+out=MICRF(nodefile); 
+
+% MICRF with one selected network
+netfile='HPRD';
+out=MICRF(nodefile,netfile); 
+
+% MICRF with users given network
+netfile='data/Inputs/Co_PrePPI_3.txt';
+out=MICRF(nodefile,netfile); 
+
+% MICRF with output file
+netfile='CoPrePPI';
+outputfile='MICRFtest.txt';
+out=MICRF(nodefile,netfile,outputfile); 
+
+% MICRF with different non-risk prior
+pi0=0.96;
+[out,w]=MICRF(nodefile,netfile,outputfile,pi0);
+
 
 #Input file format:
-
+Node score file: Gene and Score, tab separated, one line with one gene.
+Network files: Gene 1  Gene 2 and Betweenness values, tab separated, one line with one edge.
 
 # Contacts:
 Yufeng Shen: ys2411@cumc.columbia.edu
