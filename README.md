@@ -19,9 +19,9 @@ Matlab toolbox: Mark Schmidt, UGM: https://www.cs.ubc.ca/~schmidtm/Software/UGM.
 R packages: WGCNA for building co-expression modules; igraph for network edge betweenness centrality
 
 #Related methods:
-TADA: is a Bayesian hierarchical model for finding statistical significance risk genes, which incorporates de novo mutations, inherited rare variants, and variants identified within case-control data.
+TADA: is a Bayesian hierarchical model for finding statistical significance risk genes, which incorporates de novo mutations, inherited rare variants, and variants identified within case-control data. It is downloaded from http://wpicr.wpic.pitt.edu/WPICCompGen/TADA/TADA_homepage.htm. Origin TADA used the fraction of LOF and damaging missense mutations to estimate the mutation rates of LOF and damaging missense based on gene level mutation rates, we changed it directly deal with mutation type specific mutation rate.
 
-DAWN: a network method based on hidden Markov random field model.
+DAWN: a network method based on hidden Markov random field model to label risk genes based on neighbor information. It is got under authors' request. Origin DAWN contains several bugs to generate NAN results, we fixed them based on minimum changes rule to eliminate NAN and avoid exiting by any exception. 
 
 MAGI: based on a combinatorial optimization algorithm which simultaneously integrated PPIs and gene expression data to discover modules enriched for de novo mutations.
 
@@ -31,7 +31,7 @@ De novo mutation lists:
 #File list:
 DDD_denovo_mutations.R: collected DDD de novo mutation lists
 
-coexp.R: build co-expression networks
+coexp.R: build co-expression networks: CORR and CoEXP. They are built based on BrainSpan Microarray expression data.
 
 #Useage:
 
@@ -39,8 +39,6 @@ coexp.R: build co-expression networks
 
 
 # Contacts:
+ys2411@cumc.columbia.edu
+
 qh2159@cumc.columbia.edu
-
-
-
-

@@ -1,62 +1,5 @@
-coexp <- function(){
-    load("DAWNgeneexp.Rdata")
-    
-
-    ### see "data/brain_expression/pre.R"
-}
-
-
-# check not expressed genes -----------------------------------------------
-checkg <- function(){
-    load("DAWNgeneexp.Rdata")
-    genes <- rownames(data)
-    source("enrichana_6_12.R")
-    filenames <- c("result/Nat1377_meta/TADAdenovo_Meta_dmis.csv","result/Nat1377_meta/DAWN/DAWN_Meta_dmis.csv","result/Nat1377_meta/MAGI/RandomGeneList.3","result/Nat1377_meta/RWR/coexp1/hotnetresult1meta_dmis21.txt","result/Nat1377_meta/RWR/HPRD/hotnetresult1meta_dmis20.txt","result/Nat1377_meta/RWR/STRING/hotnetresult1meta_dmis31.txt","result/Nat1377_meta/RWR/iRef/hotnetresult1meta_dmis6.txt","result/Nat1377_meta/RWR/coexp/hotnetresult1meta_dmis7.txt","result/Nat1377_meta/MICRF/v4/coexp/CRFresult_0.2meta_dmisLBP_7.txt") 
-    tmp <- read.csv(filenames[1])
-    
-    Tadag <- tmp[tmp[,"qvalue.dn"]<0.3,1] ## 400 genes
-    
-    length(setdiff(Tadag,genes)) # 74
-
-}
-
 # brain 3-6 ---------------------------------------------------------------
 expressed <- function(){
-    ## RNA-seq data
-    # to data matrix 
-    filename <- "data/brain_expression/expression_matrix.csv"
-    genefile <- "data/brain_expression/rows_metadata.csv"
-    samplefile <- "data/brain_expression/columns_metadata.csv"
-    regions <- c("OFC","DFC","VFC","MFC","M1C","S1C","IPC","A1C","STC","ITC","V1C")
-    periods <- paste(10:24," pcw",sep="")
-    genesM <- as.matrix(read.csv(genefile))
-    genenames <- genesM[,"gene_symbol"]
-    sampleM <- as.matrix(read.csv(samplefile))
-    subs1 <- sampleM[,"structure_acronym"] %in% regions
-    subs2 <- sampleM[,"age"] %in% periods
-    subs <- which(subs1 & subs2)
-    samplenames <- gsub(" ","",sampleM[subs,2])
-    
-    datExpr <- read.csv(filename,header=FALSE,row.names=1)
-    datExpr <- as.matrix(datExpr[,subs])
-    rownames(datExpr) <- genenames
-    colnames(datExpr) <- samplenames
-    
-    # delete no expression gene
-    datExpr <- datExpr[rowSums(datExpr)>0,]
-    
-    # log2 transform
-    datExpr1 <- log2(datExpr+1)
-    #===============================================
-    source("Network_analysis.R")
-    genes <- rownames(datExpr1)
-    genes <- mapping_to(genes)
-    rownames(datExpr1) <- genes
-
-    Tadag <- read.csv("result/Nat1377_meta/TADAdenovo_Meta_dmis.csv")[,1]
-    datExpr2 <- datExpr1[genes %in% Tadag,]
-    save(datExpr2,file="data/brain_expression/Brainexp")
-    
     ##--------------------------------------------------------------
     ## microarray data
     # to data matrix 
@@ -131,8 +74,6 @@ build_net <- function(){
     load("data/module_coexp")
     
     library(WGCNA)
-    
-    ## cor.test.pvalue ??
     Labels <- unique(module[,2])
     allnet<- c()
     for(i in Labels){
@@ -148,7 +89,7 @@ build_net <- function(){
     }
     write.table(allnet,file="data/network_inference/brainspan_net_cor.txt",quote=FALSE,row.names=FALSE,col.names=FALSE,sep="\t")
     
-    ###===================
+    ###==================================================
     source("ASD_data_set.R")
     Labels <- unique(module[,2])
     allnet<- c()    
@@ -166,6 +107,5 @@ build_net <- function(){
         print(i)
     }
     write.table(allnet,file="data/network_inference/brainspan_net_top5.txt",quote=FALSE,row.names=FALSE,col.names=FALSE,sep="\t")
-
 
 }
