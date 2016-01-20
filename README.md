@@ -25,11 +25,13 @@ MAGI: based on a combinatorial optimization algorithm which simultaneously integ
 
 #Data
 De novo mutation lists: data/Inputs/TADAdenovo_meta_dmis.csv with mutation type specific mutation rates and TADA de novo Bayes factors and FDRs.
+
 Network files: data/network
+
 Network betweenness files: data/Network_betweenness/
 
 #Useful R functions:
-Dependencies packages:
+Dependences packages:
 
 R packages: WGCNA for building co-expression modules; igraph for network edge betweenness centrality
 
