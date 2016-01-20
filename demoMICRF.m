@@ -1,5 +1,8 @@
 function demoMICRF()
 
+% add MICRF function into current work space
+addpath(genpath(pwd))
+
 % MICRF inputs and outputs information
 help MICRF
 
