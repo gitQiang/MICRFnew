@@ -39,6 +39,6 @@ coexp.R: build co-expression networks: CORR and CoEXP. They are built based on B
 
 
 # Contacts:
-ys2411@cumc.columbia.edu
+Yufeng Shen: ys2411@cumc.columbia.edu
 
-qh2159@cumc.columbia.edu
+Qiang Huang: qh2159@cumc.columbia.edu
