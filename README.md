@@ -10,63 +10,63 @@ Data integration:
 
 1. de novo mutations from 5542 trios of neuron development disorders (NDD)
 
-2. Biological networks: three protein-protein interaction networks (STRING, HPRD+STRING, iRefIndex) and two co-expression networks (Pearson correlation cutoff based: CORR and neighbors in top 5 ranked correlation: CoEXP); Combined networks: CoEXP and PrePPI, called CoPrePPI
+2. Biological networks: three protein-protein interaction networks (STRING, HPRD+STRING, iRefIndex) and two co-expression networks (Pearson correlation cutoff based: CORR and neighbors in top 5 ranked correlations: CoEXP); Combined network: CoEXP and PrePPI, called CoPrePPI
 
 #Dependences
 
 Matlab toolbox: Mark Schmidt, UGM: https://www.cs.ubc.ca/~schmidtm/Software/UGM.html
 
 #Data
-De novo mutation lists: data/Inputs/TADAdenovo_meta_dmis.csv with mutation type specific mutation rates and TADA de novo Bayes factors and FDRs.
+De novo mutation list: data/Inputs/TADAdenovo_meta_dmis.csv, which contains gene mutation rates and TADA de novo Bayes factors, FDRs.
 
 Network files: data/network/
 
 Network betweenness files: data/Network_betweenness/
 
-#Useage
+#Usage
 %% download UGM and unzip it in current work directory
 
 %% All the following demos are shown in demoMICRF.m
 
 % add MICRF and UGM functions into current work space
 
-addpath(genpath(pwd))
+>> addpath(genpath(pwd))
 
 % MICRF inputs and outputs information
 
-help MICRF
+>> help MICRF
 
 % MICRF with one node score file
 
-nodefile='data/Inputs/hotnet_inputmeta.txt';
+>> nodefile='data/Inputs/hotnet_inputmeta.txt';
 
-out=MICRF(nodefile); 
+>> out=MICRF(nodefile); 
 
 % MICRF with one selected network
 
-netfile='HPRD';
+>> netfile='HPRD';
 
-out=MICRF(nodefile,netfile); 
+>> out=MICRF(nodefile,netfile); 
 
 % MICRF with users given network
 
-netfile='data/Inputs/Co_PrePPI_3.txt';
+>> netfile='data/Inputs/Co_PrePPI_3.txt';
 
-out=MICRF(nodefile,netfile); 
+>> out=MICRF(nodefile,netfile); 
 
 % MICRF with output file
 
-netfile='CoPrePPI';
+>> netfile='CoPrePPI';
 
-outputfile='MICRFtest.txt';
+>> outputfile='MICRFtest.txt';
 
-out=MICRF(nodefile,netfile,outputfile); 
+>> out=MICRF(nodefile,netfile,outputfile); 
 
 % MICRF with different non-risk prior
 
-pi0=0.96;
+>> pi0=0.96;
 
-[out,w]=MICRF(nodefile,netfile,outputfile,pi0);
+>> [out,w]=MICRF(nodefile,netfile,outputfile,pi0);
 
 
 #Input file format
@@ -79,14 +79,14 @@ TADA: is a Bayesian hierarchical model for finding statistical significance risk
 
 DAWN: a network method based on hidden Markov random field model to label risk genes based on neighbor information. It is got under authors' request. Origin DAWN contains several bugs to generate NAN results, we fixed them based on minimum changes rule to eliminate NAN and avoid exiting by any exception. 
 
-MAGI: based on a combinatorial optimization algorithm which simultaneously integrated PPIs and gene expression data to discover modules enriched for de novo mutations.
+MAGI: based on a combinatorial optimization algorithm which simultaneously integrated PPIs and gene expression data to discover modules enriched for de novo mutations. It is available at http://eichlerlab.gs.washington.edu/MAGI/.
 
 #Useful R functions
 Dependences packages:
 
-R packages: WGCNA for building co-expression modules; igraph for network edge betweenness centrality
+R packages: WGCNA for building co-expression modules; igraph for network edge betweenness centrality.
 
-DDD_denovo_mutations.R: collected DDD de novo mutation lists
+DDD_denovo_mutations.R: collected DDD de novo mutation lists.
 
 coexp.R: build co-expression networks: CORR and CoEXP. They are built based on BrainSpan Microarray expression data.
 
