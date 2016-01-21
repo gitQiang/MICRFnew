@@ -1,6 +1,6 @@
 function demoMICRF()
 
-% add MICRF function into current work space
+% add MICRF and UGM functions into current work space
 addpath(genpath(pwd))
 
 % MICRF inputs and outputs information
