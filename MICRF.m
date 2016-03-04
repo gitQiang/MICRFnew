@@ -23,8 +23,8 @@ netfiles={'STRINGnetmap.txt', 'iRefIndexm.txt', 'StringNew_HPRD_mnet.txt', 'brai
 bepath='data/Network_betweenness/';
 benesss={'Betweenness_edge_STRING.txt', 'Betweenness_edge_iRef.txt', 'Betweenness_edge_HPRD.txt', 'Betweenness_edge_corr1.txt', 'Betweenness_edge_coexp5.txt', 'Betweenness_edge_Co_PrePPI.txt'};
 Ws=zeros(2,6);
-Ws(1,:)=[6.8557,6.1026,7.3602,7.4168,3.9194,3.2318];
-Ws(2,:)=[10.653,9.4211,9.0906,8.0247,13.117,12.861];
+Ws(1,:)=[4.418,4.4514,4.6327,4.0596,5.2598,4.8587];
+Ws(2,:)=[8.2976,6.126,6.5149,5.6349,10.757,10.016];
 flag=0; % 0 read MICRF files and 1 read users' input files
 
 if nargin == 1
